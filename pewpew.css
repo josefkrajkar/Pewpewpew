@@ -1,0 +1,47 @@
+.arena {
+    width: 300px;
+    height: 480px;
+    border: 1px solid #999;
+    text-align: left;
+    position: absolute;
+    padding-left: 5px;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    cursor: none;
+}
+.ship {
+    width: 30px;
+    height: 30px;
+    background: blue;
+    position: absolute;
+}
+.beam {
+    width: 5px;
+    height: 20px;
+    background: yellow;
+    position: absolute;
+}
+.asteroid {
+    width: 50px;
+    height: 50px;
+    background: red;
+    position: absolute;
+}
+.bonus {
+    width: 10px;
+    height: 10px;
+    background: green;
+    position: absolute;
+    animation: Spin infinite 10s linear;
+}
+.evil {
+    width: 10px;
+    height: 10px;
+    background: black;
+    position: absolute;
+    animation: Spin infinite 1s linear;
+}
+@keyframes Spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
