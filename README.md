@@ -15,6 +15,11 @@ You can let the red square pass (+ 10 pts), but don't let it hit you (game-over)
 
 <p>If you'll have any questions or suggestions about this script or just want to say "Hello!", please send me an email, I will really appreciate it. You can check the live example of this script on <a href="http://josefkrajkar.czweb.org/pewpew/">this link.</a></p>
 
+TODO list:
+ - Recalculate mouse coordinates according to the proper position of the game area
+ - Translate comments to English
+ - Create correct live example on Github Pages
+
 
 
 
