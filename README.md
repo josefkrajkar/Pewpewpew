@@ -13,12 +13,13 @@ You can let the red square pass (+ 10 pts), but don't let it hit you (game-over)
 - use ```<Game/>``` tag in your webpage
 - Play the game! :)
 
-<p>If you'll have any questions or suggestions about this script or just want to say "Hello!", please send me an email, I will really appreciate it. You can check the live example of this script on <a href="">this link.</a></p>
+<p>If you'll have any questions or suggestions about this script or just want to say "Hello!", please send me an email, I will really appreciate it. You can check the live example of this script on <a href="http://pewpew.surge.sh/">this link.</a></p>
 
 TODO list:
  - Recalculate mouse coordinates according to the proper position of the game area
  - Translate comments to English
- - Create live example on Github Pages
+ - Create live example on Surge - Done :)
+ 
 
 
 
