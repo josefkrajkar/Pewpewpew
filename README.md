@@ -17,7 +17,7 @@ You can let the red square pass (+ 10 pts), but don't let it hit you (game-over)
 
 TODO list:
  - Recalculate mouse coordinates according to the proper position of the game area
- - Translate comments to English
+ - Translate comments to English - Done :)
  - Create live example on Surge - Done :)
  
 
