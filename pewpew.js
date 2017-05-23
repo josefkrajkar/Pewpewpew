@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './game.css';
 
+//function for proper positioning of the "Starship" - the small blue square
 function Starship(props) {
         let stats = {
             left: props.x,
@@ -9,6 +10,7 @@ function Starship(props) {
         return <div draggable="false" style={stats} className="ship"/>;
 }
 
+//function for proper positioning of the Bonus container - very small rotating green square
 function Bonus(props) {
     let stats = {
         left: props.x,
@@ -18,6 +20,7 @@ function Bonus(props) {
     return <div draggable="false" style={stats} className="bonus"/>
 }
 
+//function for proper positioning of the Anti-Bonus container - very small rotating black square
 function Evil(props) {
     let stats = {
         left: props.x,
@@ -27,6 +30,7 @@ function Evil(props) {
     return <div draggable="false" style={stats} className="evil"/>
 }
 
+//function for proper positioning of the laser beam
 function Beam(props) {
     let stats = {
         left: props.x,
@@ -36,6 +40,7 @@ function Beam(props) {
     return <div draggable="false" style={stats} className="beam"/>
 }
 
+//function for proper positioning of the asteroid - large red square
 function Asteroid(props) {
     let stats = {
         left: props.x,
@@ -44,7 +49,9 @@ function Asteroid(props) {
     return <div draggable="false" style={stats} className="asteroid"/>;
 }
 
+//main class 
 class Game extends Component {
+    //constructor method with 'declaration' of all important variables (and some unused test-variables) 
     constructor() {
         super();
         this.state = {
@@ -74,14 +81,17 @@ class Game extends Component {
         };
     }
 
+    //method for starting the timer with 10 miliseconds interval, calling the checkStatus method
     componentDidMount() {
         this.intervalId = setInterval(this.checkStatus.bind(this), 10);
     }
-
+    
+    //method for stoping the timer
     componentWillUnmount(){
         clearInterval(this.intervalId);
     }
 
+    //method for moving the "Starship" according to the mouse coordinates inside of the play area
     handleMove(e) {
         if (!this.state.game_over) {
             let x_coord=e.clientX, //- parseInt(document.defaultView.getComputedStyle(e.target).left,10),
@@ -99,6 +109,7 @@ class Game extends Component {
         }
     }
 
+    //method for controling the starship weaponry - the mighty laser beam :)
     fire(e) {
         if (this.state.cooling === 0) {
             let x=e.clientX,// - parseInt(document.defaultView.getComputedStyle(e.target).left,10),
@@ -114,15 +125,16 @@ class Game extends Component {
         }
     }
 
+    //method containing tests for all kinds of events - collisions, score events etc.
     checkStatus() {
-        //Zajisti chlazeni zbrane
+        //Controls the cooling of the weapon
         if (this.state.cooling > 0) {
             this.setState({
                 cooling: this.state.cooling - 1,
             })
         }
 
-        //Zajisti aby nebyl paprsek videt mimo herni plochu, jinak paprsek animuje
+        //Controls the laser beam. If it is out of the play area, it will hide it. Otherwise it will animate it.
         if (this.state.beam_y <= 0) {
             this.setState ({
                 beam_x: 310,
@@ -136,7 +148,7 @@ class Game extends Component {
             })
         }
 
-        //Zajisti pohyb asteroidu
+        //Controls the asteroid. If it is out of the play area, it will remove it onto the top. Otherwise it will animate it.
         if (this.state.asteroid_y >= (430)) {
             this.setState ({
                 asteroid_x: Math.floor(Math.random()*6)*50,
@@ -150,7 +162,7 @@ class Game extends Component {
             })
         }
 
-        //Zkontroluje kolizi s lodi
+        //Checks the collision of the starship and the asteroid
         if (this.state.ship_x < (this.state.asteroid_x + 50) && (this.state.ship_x + 30) > this.state.asteroid_x &&
             this.state.ship_y < (this.state.asteroid_y + 50) && (this.state.ship_y + 30) > this.state.asteroid_y) {
             this.setState({
@@ -160,7 +172,7 @@ class Game extends Component {
             clearInterval(this.intervalId);
         }
 
-        //Zkontroluje kolizi se strelou a v pripade zasahu pripocte body
+        //Checks the collision of the laser beam and the asteroid
         if (this.state.beam_x < (this.state.asteroid_x + 50) && (this.state.beam_x + 5) > this.state.asteroid_x &&
             this.state.beam_y < (this.state.asteroid_y + 50) && (this.state.beam_y + 20) > this.state.asteroid_y) {
             this.setState({
@@ -173,12 +185,12 @@ class Game extends Component {
             })
         }
 
-        //Zkontroluje skore a v pripade delitelnosti 200 zvysuje obtiznost
+        //Checks the score and raises the difficulty
         this.setState({
             asteroid_speed: Math.floor((this.state.score/200)+1),
         });
 
-        //Prida malou sanci na objeveni bonusu
+        //Adds the small chance that the bonus will appear
         if (this.state.bonus_visibility==='hidden') {
             if (Math.floor(Math.random() * 500) < 1) {
                 this.setState({
@@ -189,7 +201,7 @@ class Game extends Component {
             }
         }
 
-        //Zajisti pohyb bonusu
+        //Controls the bonus container. If it is out of the play area, it will hide it. Otherwise it will animate it.
         if (this.state.bonus_visibility==='visible') {
             if (this.state.bonus_y >= (450)) {
                 this.setState ({
@@ -205,7 +217,7 @@ class Game extends Component {
             }
         }
 
-        //Zkontroluje kolizi lodi s bonusem
+        //Checks the collision of the starship and the bonus container
         if (this.state.ship_x < (this.state.bonus_x + 10) && (this.state.ship_x + 30) > this.state.bonus_x &&
             this.state.ship_y < (this.state.bonus_y + 10) && (this.state.ship_y + 30) > this.state.bonus_y) {
             this.setState({
@@ -216,7 +228,7 @@ class Game extends Component {
             })
         }
 
-        //Prida sanci na objeveni anti-bonusu
+        //Adds the chance that the anti-bonus will appear
         if (this.state.evil_visibility==='hidden') {
             if (Math.floor(Math.random() * 100) < 1) {
                 this.setState({
@@ -227,7 +239,7 @@ class Game extends Component {
             }
         }
 
-        //Zajisti pohyb anti-bonusu
+        //Controls the bonus container. If it is out of the play area, it will hide it. Otherwise it will animate it.
         if (this.state.evil_visibility==='visible') {
             if (this.state.evil_y >= (450)) {
                 this.setState ({
@@ -243,7 +255,7 @@ class Game extends Component {
             }
         }
 
-        //Zkontroluje kolizi lodi s anti-bonusem
+        //Checks the collision of the starship and the anti-bonus container
         if (this.state.ship_x < (this.state.evil_x + 10) && (this.state.ship_x + 30) > this.state.evil_x &&
             this.state.ship_y < (this.state.evil_y + 10) && (this.state.ship_y + 30) > this.state.evil_y) {
             this.setState({
@@ -256,6 +268,7 @@ class Game extends Component {
 
     }
 
+    //render the play area    
     render() {
         return  <div unselectable="on" draggable="false" className="arena" onClick={(e) => this.fire(e)} onMouseMove={(e) => this.handleMove(e)}>
                     <p unselectable='true'>{this.state.score_text+this.state.score}</p>
