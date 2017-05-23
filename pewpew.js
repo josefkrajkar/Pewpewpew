@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './game.css';
+import './pewpew.css';
 
 //function for proper positioning of the "Starship" - the small blue square
 function Starship(props) {
