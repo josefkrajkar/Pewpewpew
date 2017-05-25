@@ -1,4 +1,4 @@
-[Pew! Pew! Pew!](http://pewpew.surge.sh/)
+# [Pew! Pew! Pew!](http://pewpew.surge.sh/)
 
 This is a simple game made in React JS. It is still WIP, but already playable and challenging :)
 
