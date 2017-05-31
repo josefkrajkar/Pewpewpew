@@ -17,7 +17,7 @@ If you'll have any questions or suggestions about this script or just want to sa
 
 TODO list:
  - Recalculate mouse coordinates according to the proper position of the game area
- - Translate comments to English - Done :)
+ - Write comments to English
  - Create static example on Surge - Done :)
  
 
