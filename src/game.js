@@ -1,3 +1,4 @@
+// @flow
 import React, { Component } from 'react';
 import './game.css';
 
@@ -59,7 +60,7 @@ class Game extends Component {
             beam_x: 310,
             beam_y: 0,
             beam_visibility: 'hidden',
-            asteroid_x: 125,
+            asteroid_x: Math.floor(Math.random()*6)*50,
             asteroid_y: 0,
             asteroid_speed: 1,
             bonus_x: 310,
@@ -71,6 +72,7 @@ class Game extends Component {
             evil_x: 310,
             evil_y: 0,
             evil_visibility: 'hidden',
+            test_text: '',
         };
     }
 
@@ -84,34 +86,41 @@ class Game extends Component {
 
     handleMove(e) {
         if (!this.state.game_over) {
-            let x_coord=e.clientX, //- parseInt(document.defaultView.getComputedStyle(e.target).left,10),
-                y_coord=e.clientY; //- parseInt(document.defaultView.getComputedStyle(e.target).top,10);
-            if (x_coord <= 270) {
+            let rect = document.getElementById('arena').getBoundingClientRect();
+            let x_coord = e.clientX - rect.left, 
+                test_x = e.clientX - rect.left, 
+                test_y = e.clientY - rect.top,  
+                y_coord = e.clientY - rect.top; 
+            this.setState({test_text: test_x + "," + test_y});
+            if (x_coord <= 275) {
                 this.setState({
                     ship_x: x_coord,
                 });
-            }
+            };
             if (y_coord <= 450) {
                 this.setState({
                     ship_y: y_coord,
                 });
             }
-        }
+      }
     }
 
     fire(e) {
         if (this.state.cooling === 0) {
-            let x=e.clientX,// - parseInt(document.defaultView.getComputedStyle(e.target).left,10),
-                y=e.clientY;// - parseInt(document.defaultView.getComputedStyle(e.target).top,10);
-            if (x <= 270 && y <= 450) {
+            let rect = document.getElementById('arena').getBoundingClientRect();
+
+            let x=e.clientX - rect.left,
+                y=e.clientY - rect.top;  
+            
+            if (x > 270) {x = 270};
                 this.setState({
                     beam_visibility: 'visible',
-                    beam_x: e.clientX + 15,
-                    beam_y: e.clientY,
+                    beam_x: x + 15,
+                    beam_y: y,
                     cooling: 50,
                 });
             }
-        }
+        
     }
 
     checkStatus() {
@@ -257,7 +266,7 @@ class Game extends Component {
     }
 
     render() {
-        return  <div unselectable="on" draggable="false" className="arena" onClick={(e) => this.fire(e)} onMouseMove={(e) => this.handleMove(e)}>
+        return <div unselectable="on" draggable="false" id="arena" className="arena" onClick={(e) => this.fire(e)} onMouseMove={(e) => this.handleMove(e)}>
                     <p unselectable='true'>{this.state.score_text+this.state.score}</p>
                     <Asteroid x={this.state.asteroid_x} y={this.state.asteroid_y}/>
                     <Bonus x={this.state.bonus_x} y={this.state.bonus_y} visibility={this.state.bonus_visibility}/>
