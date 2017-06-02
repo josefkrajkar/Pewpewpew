@@ -16,7 +16,7 @@ You can let the red square pass (+ 10 pts), but don't let it hit you (game-over)
 If you'll have any questions or suggestions about this script or just want to say "Hello!", please send me an email, I will really appreciate it. You can check the example of this script on [this link](http://pewpew.surge.sh/).
 
 TODO list:
- - Recalculate mouse coordinates according to the proper position of the game area
+ - Recalculate mouse coordinates according to the proper position of the game area - Done :)
  - Write comments to English
  - Create static example on Surge - Done :)
  
