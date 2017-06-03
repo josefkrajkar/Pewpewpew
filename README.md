@@ -17,8 +17,11 @@ If you'll have any questions or suggestions about this script or just want to sa
 
 TODO list:
  - Recalculate mouse coordinates according to the proper position of the game area - Done :)
- - Write comments to English
  - Create static example on Surge - Done :)
+ - Write comments in English
+ - Use Flow
+ - Write unit tests with Jest and Enzyme
+ 
  
 
 
