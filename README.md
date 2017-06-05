@@ -19,6 +19,7 @@ TODO list:
  - Recalculate mouse coordinates according to the proper position of the game area - Done :)
  - Create static example on Surge - Done :)
  - Write comments in English
+ - Use some nice SVGs instead of DIVs
  - Use Flow
  - Write unit tests with Jest and Enzyme
  
