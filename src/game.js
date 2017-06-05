@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import './game.css';
 
 function Starship(props) {
-        let stats = {
+        let stats: {left: number, top: number} = {
             left: props.x,
             top: props.y,
         };
@@ -11,7 +11,7 @@ function Starship(props) {
 }
 
 function Bonus(props) {
-    let stats = {
+    let stats: {left: number, top: number, visibility: string} = {
         left: props.x,
         top: props.y,
         visibility: props.visibility,
@@ -20,7 +20,7 @@ function Bonus(props) {
 }
 
 function Evil(props) {
-    let stats = {
+    let stats: {left: number, top: number, visibility: string} = {
         left: props.x,
         top: props.y,
         visibility: props.visibility,
@@ -29,7 +29,7 @@ function Evil(props) {
 }
 
 function Beam(props) {
-    let stats = {
+    let stats: {left: number, top: number, visibility: string} = {
         left: props.x,
         top: props.y,
         visibility: props.visibility,
@@ -38,7 +38,7 @@ function Beam(props) {
 }
 
 function Asteroid(props) {
-    let stats = {
+    let stats: {left: number, top: number} = {
         left: props.x,
         top: props.y,
     };
@@ -46,6 +46,33 @@ function Asteroid(props) {
 }
 
 class Game extends Component {
+
+    state: {
+        parent_width: number,
+        parent_height: number,
+        score_text: string,
+        score: number,
+        ship_x: number,
+        ship_y: number,
+        fired: boolean,
+        cooling: number,
+        beam_x: number,
+        beam_y: number,
+        beam_visibility: string,
+        asteroid_x: number,
+        asteroid_y: number,
+        asteroid_speed: number,
+        bonus_x: number,
+        bonus_y: number,
+        bonus_visibility: string,
+        game_over: boolean,
+        evil_x: number,
+        evil_y: number,
+        evil_visibility: string,
+    }
+
+    intervalId: number
+
     constructor() {
         super();
         this.state = {
@@ -67,12 +94,9 @@ class Game extends Component {
             bonus_y: 0,
             bonus_visibility: 'hidden',
             game_over: false,
-            evil_speed: 0,
-            evil_size: 0,
             evil_x: 310,
             evil_y: 0,
             evil_visibility: 'hidden',
-            test_text: '',
         };
     }
 
@@ -84,35 +108,37 @@ class Game extends Component {
         clearInterval(this.intervalId);
     }
 
-    handleMove(e) {
+    handleMove(e: MouseEvent) {
         if (!this.state.game_over) {
-            let rect = document.getElementById('arena').getBoundingClientRect();
-            let x_coord = e.clientX - rect.left, 
-                test_x = e.clientX - rect.left, 
-                test_y = e.clientY - rect.top,  
-                y_coord = e.clientY - rect.top; 
-            this.setState({test_text: test_x + "," + test_y});
-            if (x_coord <= 275) {
-                this.setState({
-                    ship_x: x_coord,
-                });
-            };
-            if (y_coord <= 450) {
-                this.setState({
-                    ship_y: y_coord,
-                });
+            let rect = document.getElementById('arena')
+            if (rect != null) {
+                rect = rect.getBoundingClientRect();
+                let x_coord = e.clientX - rect.left,  
+                    y_coord = e.clientY - rect.top; 
+                if (x_coord <= 275) {
+                    this.setState({
+                        ship_x: x_coord,
+                    });
+                };
+                if (y_coord <= 450) {
+                    this.setState({
+                        ship_y: y_coord,
+                    });
+                }
             }
       }
     }
 
-    fire(e) {
+    fire(e: MouseEvent) {
+        console.log(this.intervalId);
         if (this.state.cooling === 0) {
-            let rect = document.getElementById('arena').getBoundingClientRect();
-
-            let x=e.clientX - rect.left,
-                y=e.clientY - rect.top;  
+            let rect = document.getElementById('arena');
+            if (rect != null) {
+                rect = rect.getBoundingClientRect();
+                let x=e.clientX - rect.left,
+                    y=e.clientY - rect.top;  
             
-            if (x > 270) {x = 270};
+                if (x > 270) {x = 270};
                 this.setState({
                     beam_visibility: 'visible',
                     beam_x: x + 15,
@@ -120,6 +146,7 @@ class Game extends Component {
                     cooling: 50,
                 });
             }
+        }
         
     }
 
