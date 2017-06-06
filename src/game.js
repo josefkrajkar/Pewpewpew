@@ -261,7 +261,7 @@ class Game extends Component {
 
         //Prida sanci na objeveni anti-bonusu
         if (this.state.evil_visibility==='hidden') {
-            if (Math.floor(Math.random() * 100) < 1) {
+            if (Math.floor(Math.random() * 250) < 1) {
                 this.setState({
                     evil_x: (Math.floor(Math.random() * 30) * 10),
                     evil_y: 0,
@@ -272,15 +272,27 @@ class Game extends Component {
 
         //Zajisti pohyb anti-bonusu
         if (this.state.evil_visibility==='visible') {
+            if (this.state.evil_y < this.state.ship_y) {
+                if (this.state.evil_x < this.state.ship_x+10) {
+                    this.setState({
+                        evil_x: this.state.evil_x + 1,
+                    })
+                }
+                else {
+                    this.setState({
+                        evil_x: this.state.evil_x -1,
+                    })
+                }
+            }
             if (this.state.evil_y >= (450)) {
                 this.setState ({
                     evil_x: 310,
                     evil_y: 0,
                     evil_visibility: 'hidden',
-                })
+                });
             }
             else {
-                this.setState ({
+                this.setState({
                     evil_y: this.state.evil_y + 2,
                 })
             }
