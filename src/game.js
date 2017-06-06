@@ -54,7 +54,8 @@ class Game extends Component {
         score: number,
         ship_x: number,
         ship_y: number,
-        fired: boolean,
+        test_fired: boolean,
+        test_moved: boolean,
         cooling: number,
         beam_x: number,
         beam_y: number,
@@ -82,7 +83,8 @@ class Game extends Component {
             score: 0,
             ship_x: 135,
             ship_y: 440,
-            fired: false,
+            test_fired: false,
+            test_moved: false,
             cooling: 0,
             beam_x: 310,
             beam_y: 0,
@@ -110,6 +112,9 @@ class Game extends Component {
 
     handleMove(e: MouseEvent) {
         if (!this.state.game_over) {
+            this.setState({
+                test_moved: true,
+            });
             let rect = document.getElementById('arena')
             if (rect != null) {
                 rect = rect.getBoundingClientRect();
@@ -130,8 +135,10 @@ class Game extends Component {
     }
 
     fire(e: MouseEvent) {
-        console.log(this.intervalId);
         if (this.state.cooling === 0) {
+            this.setState({
+                test_fired: true,
+            });
             let rect = document.getElementById('arena');
             if (rect != null) {
                 rect = rect.getBoundingClientRect();
