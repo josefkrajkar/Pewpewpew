@@ -1,6 +1,6 @@
 # [Pew! Pew! Pew!](http://pewpew.surge.sh/)
 
-This is a simple game made in React JS. It is still WIP, but already playable and challenging :)
+This is a simple game made in React JS. It is still a little bit WIP, but already playable and challenging :)
 
 **How to play:**
 
@@ -20,7 +20,7 @@ TODO list:
  - Create static example on Surge - Done :)
  - Write comments in English
  - Use Flow - Done :)
- - Write unit tests with Jest and Enzyme
+ - Write unit tests with Jest and Enzyme - Done :)
  
  
 
