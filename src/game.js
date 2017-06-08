@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import './game.css';
 
+//function for initializing blue square - the starship
 function Starship(props) {
         let stats: {left: number, top: number} = {
             left: props.x,
@@ -10,6 +11,7 @@ function Starship(props) {
         return <div draggable="false" style={stats} className="ship"/>;
 }
 
+//function for initializing the small green square - the bonus
 function Bonus(props) {
     let stats: {left: number, top: number, visibility: string} = {
         left: props.x,
@@ -19,6 +21,7 @@ function Bonus(props) {
     return <div draggable="false" style={stats} className="bonus"/>
 }
 
+//function for initializing the small black square - the anti-bonus
 function Evil(props) {
     let stats: {left: number, top: number, visibility: string} = {
         left: props.x,
@@ -28,6 +31,7 @@ function Evil(props) {
     return <div draggable="false" style={stats} className="evil"/>
 }
 
+//function for initializing the small yellow rectangle - the laser beam
 function Beam(props) {
     let stats: {left: number, top: number, visibility: string} = {
         left: props.x,
@@ -37,6 +41,7 @@ function Beam(props) {
     return <div draggable="false" style={stats} className="beam"/>
 }
 
+//function for rendering the large red square - the asteroid
 function Asteroid(props) {
     let stats: {left: number, top: number} = {
         left: props.x,
@@ -45,8 +50,10 @@ function Asteroid(props) {
     return <div draggable="false" style={stats} className="asteroid"/>;
 }
 
+//main class responsible for the whole <Game/> component
 class Game extends Component {
 
+    //declaration of variables for flow
     state: {
         parent_width: number,
         parent_height: number,
@@ -74,6 +81,7 @@ class Game extends Component {
 
     intervalId: number
 
+    //constructor method with all used properties set into the state
     constructor() {
         super();
         this.state = {
@@ -102,14 +110,17 @@ class Game extends Component {
         };
     }
 
+    //starting the interval timer when the component mounts
     componentDidMount() {
         this.intervalId = setInterval(this.checkStatus.bind(this), 10);
     }
 
+    //stoping the interval timer when the component dismounts
     componentWillUnmount(){
         clearInterval(this.intervalId);
     }
 
+    //method for handling the mouseMove event - moving the starship
     handleMove(e: MouseEvent) {
         if (!this.state.game_over) {
             this.setState({
@@ -134,6 +145,7 @@ class Game extends Component {
       }
     }
 
+    //method for handling the onClick event - fire the weapon
     fire(e: MouseEvent) {
         if (this.state.cooling === 0) {
             this.setState({
@@ -157,15 +169,16 @@ class Game extends Component {
         
     }
 
+    //method called by the interval timer - checking events like collisions, moving the other objects etc.
     checkStatus() {
-        //Zajisti chlazeni zbrane
+        //checks the cooling of the weapon
         if (this.state.cooling > 0) {
             this.setState({
                 cooling: this.state.cooling - 1,
             })
         }
 
-        //Zajisti aby nebyl paprsek videt mimo herni plochu, jinak paprsek animuje
+        //responsible for hiding the laser beam if it is out of the game area, otherwise animating it
         if (this.state.beam_y <= 0) {
             this.setState ({
                 beam_x: 310,
@@ -179,7 +192,7 @@ class Game extends Component {
             })
         }
 
-        //Zajisti pohyb asteroidu
+        //responsible for moving the asteroid back to the top if it is out of the game area, otherwise animating it
         if (this.state.asteroid_y >= (430)) {
             this.setState ({
                 asteroid_x: Math.floor(Math.random()*6)*50,
@@ -193,7 +206,7 @@ class Game extends Component {
             })
         }
 
-        //Zkontroluje kolizi s lodi
+        //Checks the collision of the ship and the asteroid
         if (this.state.ship_x < (this.state.asteroid_x + 50) && (this.state.ship_x + 30) > this.state.asteroid_x &&
             this.state.ship_y < (this.state.asteroid_y + 50) && (this.state.ship_y + 30) > this.state.asteroid_y) {
             this.setState({
@@ -203,7 +216,7 @@ class Game extends Component {
             clearInterval(this.intervalId);
         }
 
-        //Zkontroluje kolizi se strelou a v pripade zasahu pripocte body
+        //Checks the collision of the laser beam and the asteroid
         if (this.state.beam_x < (this.state.asteroid_x + 50) && (this.state.beam_x + 5) > this.state.asteroid_x &&
             this.state.beam_y < (this.state.asteroid_y + 50) && (this.state.beam_y + 20) > this.state.asteroid_y) {
             this.setState({
@@ -216,12 +229,12 @@ class Game extends Component {
             })
         }
 
-        //Zkontroluje skore a v pripade delitelnosti 200 zvysuje obtiznost
+        //Checks the score and if it is multiple of 200 will raise the difficulty
         this.setState({
             asteroid_speed: Math.floor((this.state.score/200)+1),
         });
 
-        //Prida malou sanci na objeveni bonusu
+        //Adds small chance that the bonus will appear
         if (this.state.bonus_visibility==='hidden') {
             if (Math.floor(Math.random() * 500) < 1) {
                 this.setState({
@@ -232,7 +245,7 @@ class Game extends Component {
             }
         }
 
-        //Zajisti pohyb bonusu
+        //Responsible for hiding the bonus if it is out of the game area, otherwise animating it
         if (this.state.bonus_visibility==='visible') {
             if (this.state.bonus_y >= (450)) {
                 this.setState ({
@@ -248,7 +261,7 @@ class Game extends Component {
             }
         }
 
-        //Zkontroluje kolizi lodi s bonusem
+        //Checks the collision of the ship and the bonus
         if (this.state.ship_x < (this.state.bonus_x + 10) && (this.state.ship_x + 30) > this.state.bonus_x &&
             this.state.ship_y < (this.state.bonus_y + 10) && (this.state.ship_y + 30) > this.state.bonus_y) {
             this.setState({
@@ -259,7 +272,7 @@ class Game extends Component {
             })
         }
 
-        //Prida sanci na objeveni anti-bonusu
+        //Adds small chance that the anti-bonus will appear
         if (this.state.evil_visibility==='hidden') {
             if (Math.floor(Math.random() * 250) < 1) {
                 this.setState({
@@ -270,7 +283,7 @@ class Game extends Component {
             }
         }
 
-        //Zajisti pohyb anti-bonusu
+        //Responsible for hiding the anti-bonus if it is out of the game area, otherwise animating it
         if (this.state.evil_visibility==='visible') {
             if (this.state.evil_y < this.state.ship_y) {
                 if (this.state.evil_x < this.state.ship_x+10) {
@@ -298,7 +311,7 @@ class Game extends Component {
             }
         }
 
-        //Zkontroluje kolizi lodi s anti-bonusem
+        //Checks the collision of the starship and the anti-bonus
         if (this.state.ship_x < (this.state.evil_x + 10) && (this.state.ship_x + 30) > this.state.evil_x &&
             this.state.ship_y < (this.state.evil_y + 10) && (this.state.ship_y + 30) > this.state.evil_y) {
             this.setState({
@@ -311,6 +324,7 @@ class Game extends Component {
 
     }
 
+    //method for rendering the Game
     render() {
         return <div unselectable="on" draggable="false" id="arena" className="arena" onClick={(e) => this.fire(e)} onMouseMove={(e) => this.handleMove(e)}>
                     <p unselectable='true'>{this.state.score_text+this.state.score}</p>
