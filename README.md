@@ -1,6 +1,10 @@
 # [Pew! Pew! Pew!](http://pewpew.surge.sh/)
 
-This is a simple game made in React JS. It is still a little bit WIP, but already playable and challenging :)
+This is a simple game made in React JS. There is a lot to improve, but the game is already playable and challenging :)
+
+**How to install the example**
+
+Clone the repository into your harddrive and then just run ```npm install``` and ```npm start``` to run it. You can also check the static example on [this link](http://pewpew.surge.sh).
 
 **How to play:**
 
@@ -13,15 +17,17 @@ You can let the red square pass (+ 10 pts), but don't let it hit you (game-over)
 - use ```<Game/>``` tag in your webpage
 - Play the game! :)
 
-If you'll have any questions or suggestions about this script or just want to say "Hello!", please send me an email, I will really appreciate it. You can check the example of this script on [this link](http://pewpew.surge.sh/).
+If you'll have any questions or suggestions about this script or just want to say "Hello!", please send me an email, I will really appreciate it as well as any contributions :)
+
+Thank you for your time and "May the Code be with you"!
 
 TODO list:
  - Recalculate mouse coordinates according to the proper position of the game area - Done :)
  - Create static example on Surge - Done :)
- - Write comments in English
+ - Write comments in English - Done :)
  - Use Flow - Done :)
  - Write unit tests with Jest and Enzyme - Done :)
- 
+ - Use some pretty SVGs instead of DIVs
  
 
 
